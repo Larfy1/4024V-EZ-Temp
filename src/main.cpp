@@ -1,4 +1,5 @@
 #include "main.h"
+#include "globals.hpp"
 
 pros::IMU inertial(18);
 
@@ -42,11 +43,12 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    Auton("Qualification Far", qual_far),
-    Auton("Qualification Far Safe", qual_far_safe),
+    Auton("Elimination Close", elims_close),
     Auton("Qualification Close", qual_close),
-    Auton("Elimination Close", elims_far),
-    Auton("Elimination Far", elims_far),
+    Auton("Qualification Far", qual_far),
+    Auton("Eliminations Far", elims_far),
+    Auton("Eliminations Far Rush", elims_far_rush),
+    Auton("Testing", testing),
   });
 
   // Initialize chassis and auton selector
