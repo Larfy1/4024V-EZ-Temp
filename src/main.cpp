@@ -8,7 +8,7 @@ Drive chassis (
   // Left Chassis Ports
   {-15, -16, -17}
   // Right Chassis Ports
-  ,{11, 12, 14}
+  ,{11, 20, 14}
   // IMU Port
   ,18
   // Wheel Diameter
@@ -43,11 +43,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
+    Auton("Eliminations Far Rush", elims_far_rush),
     Auton("Elimination Close", elims_close),
     Auton("Qualification Close", qual_close),
     Auton("Qualification Far", qual_far),
     Auton("Eliminations Far", elims_far),
-    Auton("Eliminations Far Rush", elims_far_rush),
     Auton("Testing", testing),
   });
 
@@ -120,20 +120,52 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	bool backwards = false;
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
 
     chassis.tank(); // Tank control
-    // chassis.arcade_standard(ez::SPLIT); // Standard split arcade
-    // chassis.arcade_standard(ez::SINGLE); // Standard single arcade
-    // chassis.arcade_flipped(ez::SPLIT); // Flipped split arcade
-    // chassis.arcade_flipped(ez::SINGLE); // Flipped single arcade
+    
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+				shooter.matchload();
+				wings.setBackWings(true);
+			} else {
+				shooter.stopMatchload();
+				wings.setBackWings(false);
+			}
+		} else {
+			
+			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+				if(backwards){
+					wings.setBackWings(true);
+				}else
+				wings.setFrontWings(true);
+			} else {
+				if(backwards){ 
+					wings.setBackWings(false);
+				}else
+				wings.setFrontWings(false);
+			}
 
-    // . . .
-    // Put more user control code here!
-    // . . .
+			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+				intake.spin(true);
+			} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+				intake.spin(false);
+			} else {
+				intake.stop();
+			}
+		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+			shooter.fire(true);
+		}
+
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			backwards = !backwards;
+		}
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

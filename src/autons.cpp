@@ -27,7 +27,7 @@ const int SWING_SPEED = 90;
 void default_constants() {
   chassis.set_slew_min_power(80, 80);
   chassis.set_slew_distance(7, 7);
-  chassis.set_pid_constants(&chassis.headingPID, 13, 0, 45, 0);
+  chassis.set_pid_constants(&chassis.headingPID, 13, 0, 40, 0);
   chassis.set_pid_constants(&chassis.forward_drivePID, 1.1, 0, 8.5, 0);
   chassis.set_pid_constants(&chassis.backward_drivePID, 1.1, 0, 8.5, 0);
   chassis.set_pid_constants(&chassis.turnPID, 7, 0.003, 47, 15);
@@ -293,4 +293,60 @@ void elims_far() {
   chassis.wait_drive();
 }
 
-void elims_far_rush() {}
+void elims_far_rush() {
+  chassis.reset_gyro(323);
+  chassis.set_turn_pid(323, TURN_SPEED);
+  intake.spin(false);
+  wings.setFrontWings(true);
+  pros::delay(250);
+  wings.setFrontWings(false);
+  intake.spin(true);
+  chassis.set_drive_pid(60, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(450, TURN_SPEED);
+  chassis.wait_drive();
+  wings.setFrontWings(true);
+  intake.spin(false);
+  chassis.mode = ez::DISABLE;
+  chassis.set_tank(120, 127);
+  pros::delay(700);
+  chassis.set_tank(0, 0);
+  chassis.mode = ez::DRIVE;
+  wings.setFrontWings(false);
+  intake.stop();
+  chassis.set_drive_pid(-7, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_swing_pid(LEFT_SWING, 265, SWING_SPEED);
+  chassis.wait_drive();
+  intake.spin(true);
+  chassis.set_drive_pid(10.5, DRIVE_SPEED);
+  chassis.wait_drive();
+  pros::delay(150);
+  chassis.set_turn_pid(310, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-35, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_swing_pid(RIGHT_SWING, 420, SWING_SPEED);
+  chassis.wait_drive();
+  intake.spin(false);
+  pros::delay(250);
+  intake.stop();
+  chassis.set_turn_pid(250, TURN_SPEED);
+  chassis.wait_drive();
+  wings.setBackWings(true);
+  pros::delay(300);
+  chassis.set_swing_pid(LEFT_SWING, 180, SWING_SPEED);
+  chassis.wait_drive();
+  pros::delay(150);
+  wings.setBackWings(false);
+  pros::delay(150);
+  chassis.set_turn_pid(210, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.mode = ez::DISABLE;
+  chassis.set_tank(-127, -127);
+  pros::delay(500);
+  chassis.set_tank(0, 0);
+  chassis.mode = ez::DRIVE;
+  chassis.set_drive_pid(7, DRIVE_SPEED);
+  chassis.wait_drive();
+}
