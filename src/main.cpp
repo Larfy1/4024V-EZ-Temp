@@ -1,5 +1,6 @@
 #include "main.h"
 
+pros::IMU inertial(18);
 
 // Chassis constructor
 Drive chassis (
@@ -16,19 +17,6 @@ Drive chassis (
   // External Gear Ratio (MUST BE DECIMAL)
   ,1.333
 );
-
-pros::ADIDigitalOut wings('a');
-pros::ADIDigitalOut pistonIntake('b');
-pros::ADIDigitalOut arm('c');
-pros::ADIDigitalOut blocker('d');
-
-pros::ADIDigitalIn upSelect('e');
-pros::ADIDigitalIn done('f');
-
-pros::Motor intakeMotor(14);
-
-pros::Motor cataMotor(13);
-pros::Rotation cataRot(1);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -54,13 +42,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    Auton("Swing Example\n\nSwing, drive, swing.", swing_example),
-    Auton("Example Turn\n\nTurn 3 times.", turn_example),
-    Auton("Example Drive\n\nDrive forward and come back.", drive_example),
-    Auton("Drive and Turn\n\nDrive forward, turn, come back. ", drive_and_turn),
-    Auton("Drive and Turn\n\nSlow down during drive.", wait_until_change_speed),
-    Auton("Combine all 3 movements", combining_movements),
-    Auton("Interference\n\nAfter driving forward, robot performs differently if interfered or not.", interfered_example),
+    Auton("Qualification Far", qual_far),
+    Auton("Qualification Far Safe", qual_far_safe),
+    Auton("Qualification Close", qual_close),
+    Auton("Elimination Close", elims_far),
+    Auton("Elimination Far", elims_far),
   });
 
   // Initialize chassis and auton selector
