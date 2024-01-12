@@ -42,11 +42,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
+    Auton("Skills", skills),
     Auton("Eliminations Close", elims_close),
     Auton("Eliminations Far Rush", elims_far_rush),
     Auton("Qualification Close", qual_close),
     Auton("Qualification Far", qual_far),
-    Auton("Skills", skills),
     Auton("Eliminations Far", elims_far),
   });
 

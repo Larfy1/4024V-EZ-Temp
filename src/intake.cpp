@@ -4,7 +4,6 @@
 
 Intake::Intake(float intakeSpeed)
     : m_intakeSpeed(intakeSpeed), m_intakeMotor(-13) {
-
 }
 
 void Intake::spin(bool direction) {
