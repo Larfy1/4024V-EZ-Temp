@@ -2,13 +2,15 @@
 
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
+#include "pros/llemu.hpp"
 
 Shooter::Shooter(float fireSpeed, float downSpeed, float matchloadSpeed)
     : m_fireSpeed(fireSpeed), m_downSpeed(downSpeed), m_matchloadSpeed(matchloadSpeed),
     m_shooterMotors(std::initializer_list<pros::Motor> {
         pros::Motor(1),
         pros::Motor(-9)
-    }) {
+    }),
+    m_rotation(4, true) {
 }
 
 void Shooter::reset() {
@@ -16,30 +18,25 @@ void Shooter::reset() {
 }
 
 float Shooter::getPosition() {
-    m_shooterMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-    return m_shooterMotors.get_positions()[0];
+    return m_rotation.get_angle() / 100.0f;
 }
 
 bool Shooter::isUp() {
     float position = getPosition();
+    pros::lcd::print(3, "%f", position);
 
-    return position > 0 && position < 10;
+    return position > 355 && position < 5;
 }
 
 bool Shooter::isDown() {
-    return getPosition() > 250;
+    return getPosition() < 308;
 }
 
 void Shooter::fire(bool async) {
     if (async) {
         pros::Task task([this](){
-            fire();
+            fire(false);
         });
-    }
-
-    while (!isUp()) {
-        m_shooterMotors.move(m_fireSpeed);
-        pros::delay(10);
     }
 
     while (!isDown()) {

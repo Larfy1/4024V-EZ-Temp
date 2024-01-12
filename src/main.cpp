@@ -33,7 +33,6 @@ void initialize() {
 
   // Configure your chassis controls
   chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
-  chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
   chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
@@ -43,12 +42,12 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
+    Auton("Eliminations Close", elims_close),
     Auton("Eliminations Far Rush", elims_far_rush),
-    Auton("Elimination Close", elims_close),
     Auton("Qualification Close", qual_close),
     Auton("Qualification Far", qual_far),
+    Auton("Skills", skills),
     Auton("Eliminations Far", elims_far),
-    Auton("Testing", testing),
   });
 
   // Initialize chassis and auton selector
@@ -99,7 +98,6 @@ void autonomous() {
   chassis.reset_pid_targets(); // Resets PID targets to 0
   chassis.reset_gyro(); // Reset gyro position to 0
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
-  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
 
   ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 }
@@ -124,9 +122,14 @@ void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
-  while (true) {
+  chassis.mode = ez::DISABLE;
 
-    chassis.tank(); // Tank control
+  while (true) {
+    if (backwards) {
+      chassis.set_tank(-master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y), -master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+    } else {
+      chassis.set_tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+    }
     
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -136,18 +139,25 @@ void opcontrol() {
 				shooter.stopMatchload();
 				wings.setBackWings(false);
 			}
+
+      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        wings.setBackWings(true);
+      } else {
+        wings.setBackWings(false);
+      }
 		} else {
-			
 			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-				if(backwards){
+				if (backwards) {
 					wings.setBackWings(true);
-				}else
-				wings.setFrontWings(true);
+				} else {
+				  wings.setFrontWings(true);
+        }
 			} else {
-				if(backwards){ 
+				if (backwards) { 
 					wings.setBackWings(false);
-				}else
-				wings.setFrontWings(false);
+				} else {
+				  wings.setFrontWings(false);
+        }
 			}
 
 			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -166,6 +176,14 @@ void opcontrol() {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			backwards = !backwards;
 		}
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+      hang.hangDown();
+    }
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      hang.hangUp();
+    }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

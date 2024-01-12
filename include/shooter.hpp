@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pros/motors.hpp"
+#include "pros/rotation.hpp"
 
 class Shooter {
     public:
@@ -25,4 +26,5 @@ class Shooter {
         float m_matchloadSpeed;
 
         pros::MotorGroup m_shooterMotors;
+        pros::Rotation m_rotation;
 };
