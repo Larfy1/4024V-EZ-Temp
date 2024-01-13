@@ -9,6 +9,7 @@ void qual_far();
 void qual_close();
 void elims_far_rush();
 void elims_close();
+void elims_close_rush();
 void skills_macro();
 void skills();
 

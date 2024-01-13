@@ -32,8 +32,8 @@ void initialize() {
   pros::delay(500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
-  chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
-  chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
+  //chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
+  // chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -42,10 +42,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    Auton("Skills", skills),
-    Auton("Eliminations Close", elims_close),
+    Auton("Eliminations Close Rush", elims_close_rush),
     Auton("Eliminations Far Rush", elims_far_rush),
     Auton("Qualification Close", qual_close),
+    Auton("Skills", skills),
+    Auton("Eliminations Close", elims_close),
     Auton("Qualification Far", qual_far),
     Auton("Eliminations Far", elims_far),
   });
@@ -98,6 +99,7 @@ void autonomous() {
   chassis.reset_pid_targets(); // Resets PID targets to 0
   chassis.reset_gyro(); // Reset gyro position to 0
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
+  chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
   ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 }
@@ -119,8 +121,10 @@ void autonomous() {
  */
 void opcontrol() {
 	bool backwards = false;
+  // skills_macro();
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+  chassis.set_active_brake(0);
 
   chassis.mode = ez::DISABLE;
 
