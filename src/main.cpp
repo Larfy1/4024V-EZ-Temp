@@ -32,7 +32,7 @@ void initialize() {
   pros::delay(500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
-  //chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
+  // chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
   // chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
@@ -42,10 +42,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    Auton("Eliminations Close Rush", elims_close_rush),
     Auton("Eliminations Far Rush", elims_far_rush),
     Auton("Qualification Close", qual_close),
     Auton("Skills", skills),
+    Auton("Eliminations Close Rush", elims_close_rush),
     Auton("Eliminations Close", elims_close),
     Auton("Qualification Far", qual_far),
     Auton("Eliminations Far", elims_far),
@@ -121,8 +121,8 @@ void autonomous() {
  */
 void opcontrol() {
 	bool backwards = false;
-  // skills_macro();
   // This is preference to what you like to drive on.
+  // skills_macro();
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   chassis.set_active_brake(0);
 

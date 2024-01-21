@@ -4,6 +4,6 @@
 #include "hang.hpp"
 
 Intake intake(127);
-Shooter shooter(127, 100, 127*0.65);
+Shooter shooter(127, 100, 127*0.7);
 Wings wings;
 Hang hang;

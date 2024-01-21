@@ -124,7 +124,7 @@ void qual_close() {
   chassis.set_swing_pid(RIGHT_SWING, 90, SWING_SPEED);
   chassis.wait_drive();
   intake.spin(false);
-  chassis.set_drive_pid(25, DRIVE_SPEED);
+  chassis.set_drive_pid(23, DRIVE_SPEED);
   chassis.wait_drive();
   pros::delay(250);
   intake.stop();
@@ -230,7 +230,6 @@ void elims_close_rush() {
   chassis.wait_drive();
   pros::delay(250);
   intake.stop();
-  chassis.set_active_brake(0.1);
 }
 
 void elims_far() {
