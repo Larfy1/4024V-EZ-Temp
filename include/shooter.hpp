@@ -20,10 +20,14 @@ class Shooter {
         void matchload(float time = 0);
 
         void stopMatchload();
+
+        bool isMatchloading();
     private:
         float m_fireSpeed;
         float m_downSpeed;
         float m_matchloadSpeed;
+
+        bool m_isMatchloading;
 
         pros::MotorGroup m_shooterMotors;
         pros::Rotation m_rotation;

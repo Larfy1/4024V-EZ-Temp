@@ -42,13 +42,15 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
+    Auton("Skills", skills),
+    Auton("Eliminations Close Disrupt", elims_close_disrupt),
     Auton("Eliminations Far Rush", elims_far_rush),
+    Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
     Auton("Eliminations Close Rush", elims_close_rush),
     Auton("Eliminations Close", elims_close),
     Auton("Qualification Close", qual_close),
     Auton("Qualification Far", qual_far),
     Auton("Eliminations Far", elims_far),
-    Auton("Skills", skills),
   });
 
   // Initialize chassis and auton selector
@@ -126,7 +128,7 @@ void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   chassis.set_active_brake(0);
 
-  chassis.mode = ez::DISABLE;
+  bool backWingsState = false;
 
   while (true) {
     if (backwards) {
@@ -138,16 +140,12 @@ void opcontrol() {
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 				shooter.matchload();
-				wings.setBackWings(true);
 			} else {
 				shooter.stopMatchload();
-				wings.setBackWings(false);
 			}
 
-      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        wings.setBackWings(true);
-      } else {
-        wings.setBackWings(false);
+      if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+        backWingsState = !backWingsState;
       }
 		} else {
 			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
@@ -187,6 +185,18 @@ void opcontrol() {
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
       hang.hangUp();
+    }
+
+    if (backWingsState) {
+      wings.setBackWings(true);
+    } else {
+      wings.setBackWings(false);
+    }
+
+    if (shooter.isMatchloading()) {
+      wings.setBackWings(true);
+    } else if (!backWingsState) {
+      wings.setBackWings(false);
     }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME

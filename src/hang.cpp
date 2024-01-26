@@ -9,8 +9,6 @@ Hang::Hang()
 
 void Hang::hangUp() {
     pros::Task task([this]() {
-        m_downPiston.set_value(false);
-        pros::delay(500);
         m_upPiston.set_value(true);
     });
 }

@@ -10,6 +10,7 @@ Shooter::Shooter(float fireSpeed, float downSpeed, float matchloadSpeed)
         pros::Motor(1),
         pros::Motor(-9)
     }),
+    m_isMatchloading(false),
     m_rotation(4, true) {
 }
 
@@ -49,6 +50,8 @@ void Shooter::fire(bool async) {
 }
 
 void Shooter::matchload(float time) {
+    m_isMatchloading = true;
+
     m_shooterMotors.move(m_matchloadSpeed);
     
     if (time != 0) {
@@ -58,5 +61,9 @@ void Shooter::matchload(float time) {
 }
 
 void Shooter::stopMatchload() {
+    m_isMatchloading = false;
+
     m_shooterMotors.move(0);
 }
+
+bool Shooter::isMatchloading() { return m_isMatchloading; }
