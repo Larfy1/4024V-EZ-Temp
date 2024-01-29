@@ -42,14 +42,14 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
+    Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
+    Auton("Qualification Close", qual_close),
     Auton("Skills", skills),
+    Auton("Eliminations Close Rush", elims_close_rush),
+    Auton("Qualification Far", qual_far),
     Auton("Eliminations Close Disrupt", elims_close_disrupt),
     Auton("Eliminations Far Rush", elims_far_rush),
-    Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
-    Auton("Eliminations Close Rush", elims_close_rush),
     Auton("Eliminations Close", elims_close),
-    Auton("Qualification Close", qual_close),
-    Auton("Qualification Far", qual_far),
     Auton("Eliminations Far", elims_far),
   });
 
@@ -128,8 +128,6 @@ void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   chassis.set_active_brake(0);
 
-  bool backWingsState = false;
-
   while (true) {
     if (backwards) {
       chassis.set_tank(-master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y), -master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
@@ -144,8 +142,10 @@ void opcontrol() {
 				shooter.stopMatchload();
 			}
 
-      if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-        backWingsState = !backWingsState;
+      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        wings.setBackWings(true);
+      } else {
+        wings.setBackWings(false);
       }
 		} else {
 			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
@@ -187,15 +187,9 @@ void opcontrol() {
       hang.hangUp();
     }
 
-    if (backWingsState) {
-      wings.setBackWings(true);
-    } else {
-      wings.setBackWings(false);
-    }
-
     if (shooter.isMatchloading()) {
       wings.setBackWings(true);
-    } else if (!backWingsState) {
+    } else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       wings.setBackWings(false);
     }
 

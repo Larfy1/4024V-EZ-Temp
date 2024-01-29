@@ -51,7 +51,7 @@ void qual_far() {
   chassis.wait_drive();
   wings.setBackWings(true);
   pros::delay(300);
-  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.set_drive_pid(-14, DRIVE_SPEED);
   chassis.wait_drive();
   wings.setBackWings(false);
   chassis.set_swing_pid(LEFT_SWING, 180, SWING_SPEED);
@@ -77,11 +77,11 @@ void qual_far() {
   chassis.wait_drive();
   chassis.set_swing_pid(LEFT_SWING, 225, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(24, DRIVE_SPEED);
+  chassis.set_drive_pid(22, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(LEFT_SWING, 270, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(24, DRIVE_SPEED);
+  chassis.set_drive_pid(26, DRIVE_SPEED);
   chassis.wait_drive();
 }
 
@@ -378,23 +378,23 @@ void elims_far_rush_safe() {
   chassis.set_turn_pid(405, TURN_SPEED);
   chassis.wait_drive();
   intake.spin(false);
-  chassis.set_drive_pid(-11, DRIVE_SPEED);
+  chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();
   pros::delay(250);
   intake.stop();
   chassis.set_turn_pid(270, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(29, DRIVE_SPEED);
+  chassis.set_drive_pid(31, DRIVE_SPEED);
   chassis.wait_drive();
   intake.spin(true);
   pros::delay(350);
-  chassis.set_drive_pid(-32, DRIVE_SPEED);
+  chassis.set_drive_pid(-30, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(LEFT_SWING, 225, SWING_SPEED);
   chassis.wait_drive();
   wings.setBackWings(true);
   pros::delay(300);
-  chassis.set_drive_pid(-15, DRIVE_SPEED);
+  chassis.set_drive_pid(-17, DRIVE_SPEED);
   chassis.wait_drive();
   wings.setBackWings(false);
   pros::delay(250);
@@ -425,11 +425,12 @@ void elims_far_rush_safe() {
   pros::delay(150);
   chassis.set_turn_pid(65, TURN_SPEED);
   chassis.wait_drive();
-  intake.spin(false);
+  // wings.setFrontWings(true);
   chassis.mode = ez::DISABLE;
   chassis.set_tank(127, 127);
   pros::delay(600);
   chassis.set_tank(0, 0);
+  wings.setFrontWings(false);
   chassis.set_drive_pid(-10, DRIVE_SPEED);
   chassis.wait_drive();
   intake.stop();
