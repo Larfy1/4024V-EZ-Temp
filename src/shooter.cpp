@@ -7,7 +7,7 @@
 Shooter::Shooter(float fireSpeed, float downSpeed, float matchloadSpeed)
     : m_fireSpeed(fireSpeed), m_downSpeed(downSpeed), m_matchloadSpeed(matchloadSpeed),
     m_shooterMotors(std::initializer_list<pros::Motor> {
-        pros::Motor(1),
+        pros::Motor(5),
         pros::Motor(-9)
     }),
     m_isMatchloading(false),
