@@ -186,7 +186,7 @@ void opcontrol() {
 			backwards = !backwards;
 		}
 
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
       if(hang_up) hang.hangDown();
       else hang.hangUp();
       hang_up = !hang_up;

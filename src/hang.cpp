@@ -3,7 +3,7 @@
 #include "pros/rtos.hpp"
 
 Hang::Hang()
-    : m_upPiston('C'), m_downPiston('D') {
+    : m_upPiston('E'), m_downPiston('F') {
 
 }
 
