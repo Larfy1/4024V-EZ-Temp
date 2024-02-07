@@ -123,6 +123,7 @@ void autonomous() {
  */
 void opcontrol() {
 	bool backwards = false;
+  bool hang_up = false;
   // This is preference to what you like to drive on.
   // skills_macro();
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
@@ -136,61 +137,59 @@ void opcontrol() {
     }
     
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-				shooter.matchload();
-			} else {
-				shooter.stopMatchload();
-			}
+      shooter.matchload();
+    } else {
+      shooter.stopMatchload();
+    }
 
-      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        wings.setBackWings(true);
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      wings.setFrontWings(true);
+    } else {
+      wings.setFrontWings(false);
+    }
+
+    if (backwards) {
+      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        wings.setBackWingR(true);
       } else {
-        wings.setBackWings(false);
+        wings.setBackWingR(false);
       }
-		} else {
-			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-				if (backwards) {
-					wings.setBackWings(true);
-				} else {
-				  wings.setFrontWings(true);
-        }
-			} else {
-				if (backwards) { 
-					wings.setBackWings(false);
-				} else {
-				  wings.setFrontWings(false);
-        }
-			}
 
-			if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-				intake.spin(true);
-			} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-				intake.spin(false);
-			} else {
-				intake.stop();
-			}
-		}
+      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        wings.setBackWingL(true);
+      } else {
+        wings.setBackWingL(false);
+      }
+    } else {
+      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        wings.setBackWingL(true);
+      } else {
+        wings.setBackWingL(false);
+      }
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-			shooter.fire(true);
-		}
+      if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        wings.setBackWingR(true);
+      } else {
+        wings.setBackWingR(false);
+      }
+    }
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      intake.spin(true);
+    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intake.spin(false);
+    } else {
+      intake.stop();
+    }
 
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			backwards = !backwards;
 		}
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-      hang.hangDown();
-    }
-
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-      hang.hangUp();
-    }
-
-    if (shooter.isMatchloading()) {
-      wings.setBackWings(true);
-    } else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      wings.setBackWings(false);
+      if(hang_up) hang.hangDown();
+      else hang.hangUp();
+      hang_up = !hang_up;
     }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
