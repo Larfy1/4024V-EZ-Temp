@@ -124,6 +124,7 @@ void autonomous() {
 void opcontrol() {
 	bool backwards = false;
   bool hang_up = false;
+  bool park_down = false;
   // This is preference to what you like to drive on.
   // skills_macro();
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
@@ -142,6 +143,22 @@ void opcontrol() {
       shooter.stopMatchload();
     }
 
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+      if(!park_down) {
+        hang.parkDown();
+        wings.setBackWingR(true);
+      } else {
+        hang.parkUp();
+        wings.setBackWingR(false);
+      }
+      park_down = !park_down;
+    }
+
+    // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+    //   if(shooter.isMatchloading()) shooter.stopMatchload();
+    //   else shooter.matchload();
+    // }
+
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       wings.setFrontWings(true);
     } else {
@@ -151,7 +168,7 @@ void opcontrol() {
     if (backwards) {
       if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         wings.setBackWingR(true);
-      } else {
+      } else if(!park_down) {
         wings.setBackWingR(false);
       }
 
@@ -169,7 +186,7 @@ void opcontrol() {
 
       if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
         wings.setBackWingR(true);
-      } else {
+      } else if(!park_down) {
         wings.setBackWingR(false);
       }
     }

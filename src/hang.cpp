@@ -3,8 +3,20 @@
 #include "pros/rtos.hpp"
 
 Hang::Hang()
-    : m_upPiston('E'), m_downPiston('F') {
+    : m_parkPiston('D'), m_upPiston('E'), m_downPiston('F') {
 
+}
+
+void Hang::parkDown() {
+    pros::Task task([this]() {
+        m_parkPiston.set_value(true);
+    });
+}
+
+void Hang::parkUp() {
+    pros::Task task([this]() {
+        m_parkPiston.set_value(false);
+    });
 }
 
 void Hang::hangUp() {
