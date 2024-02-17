@@ -14,5 +14,6 @@ void elims_close_disrupt();
 void elims_close_rush();
 void skills_macro();
 void skills();
+void test();
 
 void default_constants();

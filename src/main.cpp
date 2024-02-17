@@ -42,15 +42,16 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
+    //Auton("Test PID Movements", test)
+    //Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
     Auton("Qualification Close", qual_close),
-    Auton("Skills", skills),
-    Auton("Eliminations Close Rush", elims_close_rush),
-    Auton("Qualification Far", qual_far),
-    Auton("Eliminations Close Disrupt", elims_close_disrupt),
-    Auton("Eliminations Far Rush", elims_far_rush),
-    Auton("Eliminations Close", elims_close),
-    Auton("Eliminations Far", elims_far),
+    // Auton("Skills", skills),
+    // Auton("Eliminations Close Rush", elims_close_rush),
+    // Auton("Qualification Far", qual_far),
+    // Auton("Eliminations Close Disrupt", elims_close_disrupt),
+    // Auton("Eliminations Far Rush", elims_far_rush),
+    // Auton("Eliminations Close", elims_close),
+    // Auton("Eliminations Far", elims_far),
   });
 
   // Initialize chassis and auton selector
@@ -137,13 +138,13 @@ void opcontrol() {
       chassis.set_tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
     }
     
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-      shooter.matchload();
-    } else {
-      shooter.stopMatchload();
-    }
+    // if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    //   shooter.matchload();
+    // } else {
+    //   shooter.stopMatchload();
+    // }
 
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
       if(!park_down) {
         hang.parkDown();
         wings.setBackWingR(true);
@@ -154,10 +155,10 @@ void opcontrol() {
       park_down = !park_down;
     }
 
-    // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-    //   if(shooter.isMatchloading()) shooter.stopMatchload();
-    //   else shooter.matchload();
-    // }
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+      if(shooter.isMatchloading()) shooter.stopMatchload();
+      else shooter.matchload();
+    }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       wings.setFrontWings(true);
