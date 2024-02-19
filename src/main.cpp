@@ -42,15 +42,13 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    //Auton("Test PID Movements", test)
-    //Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
-    Auton("Qualification Close", qual_close),
+    // Auton("Test PID Movements", test)
+    // Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
+    // Auton("Qualification Close", qual_close),
     // Auton("Skills", skills),
-    // Auton("Eliminations Close Rush", elims_close_rush),
+    Auton("Eliminations Close Rush", elims_close_rush),
     // Auton("Qualification Far", qual_far),
     // Auton("Eliminations Close Disrupt", elims_close_disrupt),
-    // Auton("Eliminations Far Rush", elims_far_rush),
-    // Auton("Eliminations Close", elims_close),
     // Auton("Eliminations Far", elims_far),
   });
 
