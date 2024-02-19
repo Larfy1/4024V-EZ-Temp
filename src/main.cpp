@@ -43,11 +43,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
+    Auton("Eliminations Close Rush", elims_close_rush),
     // Auton("Test PID Movements", test)
     // Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
     // Auton("Qualification Close", qual_close),
     // Auton("Skills", skills),
-    Auton("Eliminations Close Rush", elims_close_rush),
     // Auton("Qualification Far", qual_far),
     // Auton("Eliminations Close Disrupt", elims_close_disrupt),
     // Auton("Eliminations Far", elims_far),
@@ -112,8 +112,8 @@ void autonomous() {
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
   
-  // ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
-  elims_far_rush_safe();
+  ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
+  // elims_far_rush_safe();
 }
 
 
