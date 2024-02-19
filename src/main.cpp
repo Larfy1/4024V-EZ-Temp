@@ -1,4 +1,5 @@
 #include "main.h"
+#include "autons.hpp"
 #include "globals.hpp"
 
 pros::IMU inertial(18);
@@ -55,6 +56,15 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+
+  pros::Task task([](){
+    pros::Imu imu(18);
+
+    while (true) {
+      pros::lcd::print(3, "%f", imu.get_rotation());
+      pros::delay(10);
+    }
+  });
 }
 
 
@@ -102,7 +112,8 @@ void autonomous() {
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
   
-  ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
+  // ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
+  elims_far_rush_safe();
 }
 
 

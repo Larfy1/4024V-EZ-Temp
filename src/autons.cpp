@@ -1,3 +1,4 @@
+#include "EZ-Template/util.hpp"
 #include "main.h"
 #include "globals.hpp"
 
@@ -28,25 +29,20 @@ void default_constants() {
   chassis.set_slew_min_power(80, 80);
   chassis.set_slew_distance(7, 7);
   chassis.set_pid_constants(&chassis.headingPID, 0, 0, 0, 0);
-  chassis.set_pid_constants(&chassis.forward_drivePID, 0.15, 0, 0.25, 0);
-  chassis.set_pid_constants(&chassis.backward_drivePID, 0.17, 0, 0.12, 0);
-  chassis.set_pid_constants(&chassis.turnPID, 1.8, 0, 12, 0);
-  chassis.set_pid_constants(&chassis.swingPID, 2.5, 0, 20, 0);
-  chassis.forward_drivePID.set_exit_condition(200, 0.25);
-  chassis.backward_drivePID.set_exit_condition(200, 0.25);
+  chassis.set_pid_constants(&chassis.forward_drivePID, 0.75, 0, 6.4, 0);
+  chassis.set_pid_constants(&chassis.turnPID, 2.28, 0, 16, 0);
+  chassis.set_pid_constants(&chassis.swingPID, 4.50, 0, 51.20, 0);
 }
 
 void test() {
-  chassis.set_drive_pid(24, DRIVE_SPEED);
-  chassis.wait_drive();
   chassis.set_swing_pid(LEFT_SWING, 90, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(180, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(24, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(0, TURN_SPEED);
-  chassis.wait_drive();
+  // chassis.wait_drive();
+  // chassis.set_turn_pid(180, TURN_SPEED);
+  // chassis.wait_drive();
+  // chassis.set_turn_pid(270, TURN_SPEED);
+  // chassis.wait_drive();
+  // chassis.set_turn_pid(360, TURN_SPEED);
+  // chassis.wait_drive();
   // chassis.set_drive_pid(24, DRIVE_SPEED);
   // chassis.wait_drive();
   // chassis.set_turn_pid(180, TURN_SPEED);
@@ -275,7 +271,7 @@ void elims_far() {
 
 void elims_far_rush_safe() {
   chassis.reset_gyro(340);
-  chassis.set_turn_pid(340, TURN_SPEED);
+  chassis.set_turn_pid(340, 0);
   intake.spin(false);
   wings.setFrontWings(true);
   pros::delay(250);
