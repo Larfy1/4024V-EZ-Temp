@@ -9,14 +9,6 @@
 /////
 
 
-const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
-                             // If this is 127 and the robot tries to heading correct, it's only correcting by
-                             // making one side slower.  When this is 87%, it's correcting by making one side
-                             // faster and one side slower, giving better heading correction.
-const int TURN_SPEED  = 90;
-const int SWING_SPEED = 90;
-
-
 
 ///
 // Constants
@@ -29,14 +21,10 @@ void default_constants() {
   chassis.set_slew_min_power(80, 80);
   chassis.set_slew_distance(7, 7);
   chassis.set_pid_constants(&chassis.headingPID, 0, 0, 0, 0);
-  // chassis.set_pid_constants(&chassis.forward_drivePID, 0.15, 0, 0.25, 0);
   chassis.set_pid_constants(&chassis.forward_drivePID, 0.75, 0, 6.4, 0);
-  chassis.set_pid_constants(&chassis.backward_drivePID, 0.17, 0, 0.12, 0);
-  // chassis.set_pid_constants(&chassis.turnPID, 1.8, 0, 12, 0);
+  chassis.set_pid_constants(&chassis.backward_drivePID, 0.75, 0, 6.4, 0);
   chassis.set_pid_constants(&chassis.turnPID, 2.28, 0, 16, 0);
   chassis.set_pid_constants(&chassis.swingPID, 4.50, 0, 51.20, 0);
-  chassis.forward_drivePID.set_exit_condition(200, 0.25);
-  chassis.backward_drivePID.set_exit_condition(200, 0.25);
 }
 
 void test() {
@@ -279,7 +267,7 @@ void elims_far() {
 
 void elims_far_rush_safe() {
   chassis.reset_gyro(340);
-  chassis.set_turn_pid(340, 0);
+  chassis.set_turn_pid(340, TURN_SPEED);
   intake.spin(false);
   wings.setFrontWings(true);
   pros::delay(250);
@@ -352,31 +340,36 @@ void elims_far_rush_safe() {
 }
 
 void skills_macro() {
-  chassis.reset_gyro(146);
-  chassis.set_turn_pid(146, TURN_SPEED);
+  chassis.reset_gyro(151);
+  chassis.set_turn_pid(151, TURN_SPEED);
   intake.spin(false);
   chassis.set_drive_pid(-24, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(RIGHT_SWING, 180, SWING_SPEED);
   chassis.wait_drive();
   intake.stop();
+  chassis.set_drive_pid(10, DRIVE_SPEED);
+  chassis.wait_drive();
   chassis.mode = ez::DISABLE;
   chassis.set_tank(-127, -127);
   pros::delay(500);
   chassis.set_tank(0, 0);
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(5, DRIVE_SPEED);
+  chassis.set_drive_pid(2, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_swing_pid(RIGHT_SWING, 70, SWING_SPEED);
+  chassis.set_swing_pid(RIGHT_SWING, 75, SWING_SPEED-10);
   chassis.wait_drive();
   chassis.set_drive_pid(-3, DRIVE_SPEED);
   chassis.wait_drive();
   wings.setBackWingR(true);
+  pros::delay(500);
+  intake.spin(false);
   shooter.matchload();
-  // pros::delay(22000);
-  pros::delay(2000);
+  pros::delay(22000);
+  // pros::delay(2000);
   shooter.stopMatchload();
+  intake.stop();
   wings.setBackWingR(false);
 }
 

@@ -26,10 +26,7 @@ Drive chassis (
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {
-  // Print our branding over your terminal :D
-  ez::print_ez_template();
-  
+void initialize() {  
   pros::delay(500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
@@ -56,15 +53,19 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  
+  chassis.reset_pid_targets(); // Resets PID targets to 0
+  chassis.reset_gyro(); // Reset gyro position to 0
+  chassis.reset_drive_sensor(); // Reset drive sensors to 0
 
-  pros::Task task([](){
-    pros::Imu imu(18);
+  // pros::Task task([](){
+  //   pros::Imu imu(18);
 
-    while (true) {
-      pros::lcd::print(3, "%f", imu.get_rotation());
-      pros::delay(10);
-    }
-  });
+  //   while (true) {
+  //     pros::lcd::print(3, "%f", imu.get_rotation());
+  //     pros::delay(10);
+  //   }
+  // });
 }
 
 
@@ -107,9 +108,6 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-  chassis.reset_pid_targets(); // Resets PID targets to 0
-  chassis.reset_gyro(); // Reset gyro position to 0
-  chassis.reset_drive_sensor(); // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
   
   ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
@@ -131,12 +129,13 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
+void opcontrol() {  
 	bool backwards = false;
   bool hang_up = false;
   bool park_down = false;
-  // This is preference to what you like to drive on.
-  // skills_macro();
+  //skills_macro();
+  chassis.mode = ez::DISABLE;
+
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   chassis.set_active_brake(0);
 
@@ -153,8 +152,8 @@ void opcontrol() {
     //   shooter.stopMatchload();
     // }
 
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-      if(!park_down) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+      if (!park_down) {
         hang.parkDown();
         wings.setBackWingR(true);
       } else {
@@ -164,9 +163,13 @@ void opcontrol() {
       park_down = !park_down;
     }
 
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-      if(shooter.isMatchloading()) shooter.stopMatchload();
-      else shooter.matchload();
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+      if (shooter.isMatchloading()) {
+        shooter.stopMatchload();
+      }
+      else {
+        shooter.matchload();
+      }
     }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
