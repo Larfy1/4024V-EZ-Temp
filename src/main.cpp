@@ -58,14 +58,14 @@ void initialize() {
   chassis.reset_gyro(); // Reset gyro position to 0
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
 
-  // pros::Task task([](){
-  //   pros::Imu imu(18);
+  pros::Task task([](){
+    pros::Imu imu(18);
 
-  //   while (true) {
-  //     pros::lcd::print(3, "%f", imu.get_rotation());
-  //     pros::delay(10);
-  //   }
-  // });
+    while (true) {
+      pros::lcd::print(3, "%f", imu.get_rotation());
+      pros::delay(10);
+    }
+  });
 }
 
 
@@ -145,7 +145,7 @@ void opcontrol() {
     } else {
       chassis.set_tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
     }
-    
+
     // if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
     //   shooter.matchload();
     // } else {

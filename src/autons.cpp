@@ -340,25 +340,25 @@ void elims_far_rush_safe() {
 }
 
 void skills_macro() {
-  chassis.reset_gyro(151);
-  chassis.set_turn_pid(151, TURN_SPEED);
+  chassis.reset_gyro(146);
+  chassis.set_turn_pid(146, TURN_SPEED);
   intake.spin(false);
   chassis.set_drive_pid(-24, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(RIGHT_SWING, 180, SWING_SPEED);
   chassis.wait_drive();
   intake.stop();
-  chassis.set_drive_pid(10, DRIVE_SPEED);
+  chassis.set_drive_pid(5, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.mode = ez::DISABLE;
-  chassis.set_tank(-127, -127);
+  chassis.set_tank(-90, -90);
   pros::delay(500);
   chassis.set_tank(0, 0);
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(2, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_swing_pid(RIGHT_SWING, 75, SWING_SPEED-10);
+  chassis.set_swing_pid(RIGHT_SWING, 70, SWING_SPEED-10);
   chassis.wait_drive();
   chassis.set_drive_pid(-3, DRIVE_SPEED);
   chassis.wait_drive();
@@ -366,8 +366,8 @@ void skills_macro() {
   pros::delay(500);
   intake.spin(false);
   shooter.matchload();
-  pros::delay(22000);
-  // pros::delay(2000);
+  // pros::delay(22000);
+  pros::delay(2000);
   shooter.stopMatchload();
   intake.stop();
   wings.setBackWingR(false);
