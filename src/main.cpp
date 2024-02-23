@@ -42,9 +42,9 @@ void initialize() {
   ez::as::auton_selector.add_autons({
     // Auton("Eliminations Close Rush", elims_close_rush),
     // Auton("Test PID Movements", test)
-    // Auton("Eliminations Far Rush Safe", elims_far_rush_safe),
-    // Auton("Qualification Close", qual_close),
-    Auton("Skills", skills),
+    // Auton("Eliminations Far Rush Between", elims_far_rush_between),
+    Auton("Qualification Close", qual_close),
+    // Auton("Skills", skills),
     // Auton("Qualification Far", qual_far),
     // Auton("Eliminations Close Disrupt", elims_close_disrupt),
     // Auton("Eliminations Far", elims_far),
