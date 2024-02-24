@@ -448,8 +448,8 @@ void skills_macro() {
   pros::delay(500);
   intake.spin(false);
   shooter.matchload();
-  //pros::delay(22000);
-  pros::delay(2000);
+  pros::delay(22000);
+  // pros::delay(2000);
   shooter.stopMatchload();
   intake.stop();
   wings.setBackWingR(false);
@@ -499,7 +499,7 @@ void skills() {
   chassis.set_tank(127, 127);
   pros::delay(500);
   chassis.set_tank(0, 0);
-  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.set_turn_pid(175, TURN_SPEED);
   chassis.wait_drive();
   wings.setFrontWings(false);
   chassis.set_drive_pid(-18, DRIVE_SPEED);
@@ -558,7 +558,7 @@ void skills() {
   chassis.wait_until(5);
   wings.setBackWingR(false);
   chassis.wait_drive();
-  chassis.set_turn_pid(-10, TURN_SPEED);
+  chassis.set_turn_pid(-15, TURN_SPEED);
   chassis.wait_drive();
   wings.setBackWingR(true);
   chassis.set_drive_pid(-45, DRIVE_SPEED);

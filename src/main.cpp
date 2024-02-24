@@ -43,8 +43,8 @@ void initialize() {
     // Auton("Eliminations Close Rush", elims_close_rush),
     // Auton("Test PID Movements", test)
     // Auton("Eliminations Far Rush Between", elims_far_rush_between),
-    Auton("Qualification Close", qual_close),
-    // Auton("Skills", skills),
+    // Auton("Qualification Close", qual_close),
+    Auton("Skills", skills),
     // Auton("Qualification Far", qual_far),
     // Auton("Eliminations Close Disrupt", elims_close_disrupt),
     // Auton("Eliminations Far", elims_far),
