@@ -133,7 +133,9 @@ void opcontrol() {
 	bool backwards = false;
   bool hang_up = false;
   bool park_down = false;
-  //skills_macro();
+
+  chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
+  // skills_macro();
   chassis.mode = ez::DISABLE;
 
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
@@ -145,6 +147,8 @@ void opcontrol() {
     } else {
       chassis.set_tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
     }
+
+    // chassis.arcade_standard(ez::SPLIT);
 
     // if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
     //   shooter.matchload();

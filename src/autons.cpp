@@ -151,7 +151,7 @@ void elims_close_rush() {
   pros::delay(250);
   wings.setFrontWings(false);
   intake.spin(true);
-  chassis.set_drive_pid(49, DRIVE_SPEED);
+  chassis.set_drive_pid(50, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(30, TURN_SPEED);
   chassis.wait_drive();
@@ -182,12 +182,12 @@ void elims_close_rush() {
   pros::delay(250);
   chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-27, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_swing_pid(RIGHT_SWING, -250, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-10, DRIVE_SPEED);
-  chassis.wait_drive();
+  // chassis.set_drive_pid(-27, DRIVE_SPEED);
+  // chassis.wait_drive();
+  // chassis.set_swing_pid(RIGHT_SWING, -250, SWING_SPEED);
+  // chassis.wait_drive();
+  // chassis.set_drive_pid(-10, DRIVE_SPEED);
+  // chassis.wait_drive();
 }
 
 void elims_close_disrupt() {
@@ -366,11 +366,11 @@ void elims_far_rush_between() {
   intake.stop();
   chassis.set_turn_pid(265, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(32, DRIVE_SPEED);
+  chassis.set_drive_pid(31, DRIVE_SPEED);
   chassis.wait_drive();
   intake.spin(true);
   pros::delay(350);
-  chassis.set_drive_pid(-35, DRIVE_SPEED);
+  chassis.set_drive_pid(-34, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(LEFT_SWING, 225, SWING_SPEED);
   chassis.wait_drive();
@@ -384,9 +384,11 @@ void elims_far_rush_between() {
   pros::delay(250);
   chassis.set_swing_pid(LEFT_SWING, 180, SWING_SPEED);
   chassis.wait_drive();
+  chassis.set_drive_pid(5, DRIVE_SPEED);
+  chassis.wait_drive();
   chassis.mode = ez::DISABLE;
   chassis.set_tank(-127, -127);
-  pros::delay(350);
+  pros::delay(500);
   chassis.set_tank(0, 0);
   chassis.set_drive_pid(5, DRIVE_SPEED);
   chassis.wait_drive();
@@ -402,9 +404,6 @@ void elims_far_rush_between() {
   chassis.set_drive_pid(-14, DRIVE_SPEED + 10);
   chassis.wait_drive();
   chassis.set_turn_pid(285, TURN_SPEED);
-  chassis.wait_drive();
-  intake.spin(true);
-  chassis.set_drive_pid(24, DRIVE_SPEED);
   chassis.wait_drive();
   // chassis.set_turn_pid(425, TURN_SPEED);
   // chassis.wait_drive();
@@ -448,7 +447,7 @@ void skills_macro() {
   pros::delay(500);
   intake.spin(false);
   shooter.matchload();
-  pros::delay(22000);
+  pros::delay(21500);
   // pros::delay(2000);
   shooter.stopMatchload();
   intake.stop();
