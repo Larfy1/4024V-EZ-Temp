@@ -40,11 +40,13 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
-    // Auton("Eliminations Close Rush", elims_close_rush),
+    // Auton("Eliminations Close Rush Retreat", elims_close_rush_retreat),
+    Auton("Eliminations Close Rush Wedge", elims_close_rush_wedge),
     // Auton("Test PID Movements", test)
     // Auton("Eliminations Far Rush Between", elims_far_rush_between),
     // Auton("Qualification Close", qual_close),
-    Auton("Skills", skills),
+    // Auton("Qualification Close Rush", qual_close_rush),
+    // Auton("Skills", skills),
     // Auton("Qualification Far", qual_far),
     // Auton("Eliminations Close Disrupt", elims_close_disrupt),
     // Auton("Eliminations Far", elims_far),
